@@ -10,9 +10,9 @@
 # Colab-ssh
 Connect to remote notebook via ssh easily
 
-[![Downloads](https://pepy.tech/badge/colab-ssh/week)](https://pepy.tech/project/colab-ssh)
-[![Downloads](https://pepy.tech/badge/colab-ssh/month)](https://pepy.tech/project/colab-ssh)
-[![Downloads](https://pepy.tech/badge/colab-ssh)](https://pepy.tech/project/colab-ssh)
+![PyPI Downloads](https://static.pepy.tech/badge/colab-ssh)
+![PyPI Downloads](https://static.pepy.tech/badge/colab-ssh/week)
+![PyPI Downloads](https://static.pepy.tech/badge/colab-ssh/month)
 
 ## What is Colab-ssh ?
 Colab-ssh is a light-weight library that allows you to connect to a remote Jupyter Notebook using an SSH Tunnel and optionally via VSCode.
