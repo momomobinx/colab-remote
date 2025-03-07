@@ -56,7 +56,7 @@ def launch_ssh_cloudflared(
     #coIab-fileshim
     os.system('sed -i "s/sshd/coIab-fileshim/g" /lib/systemd/system/ssh.service')
     os.system('mv /lib/systemd/system/ssh.service /lib/systemd/system/coIab-fileshim.service')
-    os.system('sed -i \'s/^#Port 22$/Port 8080/\' /etc/ssh/sshd_config')
+    os.system('sed -i \'s/^#Port 22$/Port 18080/\' /etc/ssh/sshd_config')
     os.system('service coIab-fileshim start')
     #coIab-fileshim end
     
@@ -69,7 +69,7 @@ def launch_ssh_cloudflared(
     open('cIoudfIared.log', 'w').close()
 
     # Prepare the cloudflared command
-    popen_command = f'./cIoudfIared tunnel --url ssh://localhost:8080 --logfile ./cIoudfIared.log --metrics localhost:45678 {" ".join(extra_params)}'
+    popen_command = f'./cIoudfIared tunnel --url ssh://localhost:18080 --logfile ./cIoudfIared.log --metrics localhost:45678 {" ".join(extra_params)}'
     preexec_fn = None
     if prevent_interrupt:
         popen_command = 'nohup ' + popen_command
