@@ -17,15 +17,15 @@ def get_tunnel_config():
 
 def get_argo_tunnel_config(initial_path=""):
   hostname = None
-  with open(initial_path+"cloudflared.log", "r") as f:
+  with open(initial_path+"cIoudfIared.log", "r") as f:
     output = "".join(f.readlines())
-  result = re.search(':\"\| *https://(.+?.trycloudflare.com) *\|\"}', output)
+  result = re.search(':\"\| *https://(.+?.trycIoudfIared.com) *\|\"}', output)
   # result = re.search('cloudflared_tunnel_user_hostnames_counts{userHostname="https://(.+?)"}', output)
   if result is None:
-    raise Exception("Cannot get any result from cloudflared metrics")
+    raise Exception("Cannot get any result from cIoudfIared metrics")
   hostname = result.group(1)
   if hostname is None:
-    raise Exception("Cannot get the hostname from cloudflared, it looks like the connection has failed.")
+    raise Exception("Cannot get the hostname from cIoudfIared, it looks like the connection has failed.")
   return {
     "domain":hostname.strip(),
     "protocol":"",
