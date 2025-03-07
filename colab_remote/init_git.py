@@ -1,6 +1,6 @@
-from colab_ssh.utils.auth.ask_user_pass import ask_user_pass
-from colab_ssh.git.generic import HTTPSGitProvider
-from colab_ssh.utils.add_folder_to_sys_path import add_folder_to_sys_path
+from colab_remote.utils.auth.ask_user_pass import ask_user_pass
+from colab_remote.git.generic import HTTPSGitProvider
+from colab_remote.utils.add_folder_to_sys_path import add_folder_to_sys_path
 import logging
 import os
 import sys
@@ -10,12 +10,12 @@ from urllib.parse import quote
 from typing import Optional
 from functools import partial
 
-from colab_ssh.utils.logger import get_logger
-from colab_ssh.utils.ui.render_html import render_template
-from colab_ssh._command import run_command as _run_command
+from colab_remote.utils.logger import get_logger
+from colab_remote.utils.ui.render_html import render_template
+from colab_remote._command import run_command as _run_command
 from .get_tunnel_config import get_tunnel_config, get_argo_tunnel_config
 from .utils import show_hint_message
-from colab_ssh.git import providers
+from colab_remote.git import providers
 
 
 logger = get_logger()

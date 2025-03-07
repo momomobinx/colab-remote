@@ -1,5 +1,5 @@
 import abc
-from colab_ssh.ssh.public_key import add_to_authorized_keys
+from colab_remote.ssh.public_key import add_to_authorized_keys
 import requests
 
 

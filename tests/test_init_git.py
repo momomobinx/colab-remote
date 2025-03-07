@@ -5,8 +5,8 @@ import logging
 import os
 import mock
 
-from colab_ssh import launch_ssh
-from colab_ssh import init_git_cloudflared
+from colab_remote import launch_ssh
+from colab_remote import init_git_cloudflared
 
 
 def test_public_repo_github():

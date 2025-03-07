@@ -1,4 +1,4 @@
-from colab_ssh import launch_ssh
+from colab_remote import launch_ssh
 import os
 import pytest
 from dotenv import load_dotenv

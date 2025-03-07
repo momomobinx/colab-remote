@@ -3,9 +3,9 @@ import pytest
 import builtins
 import getpass
 import logging
-from colab_ssh import launch_ssh
+from colab_remote import launch_ssh
 import os
-from colab_ssh import init_git
+from colab_remote import init_git
 import mock
 
 

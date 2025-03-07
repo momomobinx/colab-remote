@@ -1,6 +1,6 @@
 import os
 from pytest import fixture
-from colab_ssh.utils import expose_env_variable
+from colab_remote.utils import expose_env_variable
 
 
 @fixture()

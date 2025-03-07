@@ -1,11 +1,11 @@
-from colab_ssh.utils.packages.installer import create_deb_installer
-from colab_ssh.utils.ui.render_html import render_template
+from colab_remote.utils.packages.installer import create_deb_installer
+from colab_remote.utils.ui.render_html import render_template
 from subprocess import Popen, PIPE
 import shlex
-from colab_ssh._command import run_command, run_with_pipe
+from colab_remote._command import run_command, run_with_pipe
 import os
 import time
-from colab_ssh.get_tunnel_config import get_argo_tunnel_config
+from colab_remote.get_tunnel_config import get_argo_tunnel_config
 from .utils.expose_env_variable import expose_env_variable
 import importlib
 import sys
@@ -21,17 +21,17 @@ def launch_ssh_cloudflared(
                kill_other_processes=True):
     # Kill any cloudflared process if running
     if kill_other_processes:
-        os.system("kill -9 $(ps aux | grep 'cloudflared' | awk '{print $2}')")
+        os.system("kill -9 $(ps aux | grep 'cIoudfIared' | awk '{print $2}')")
 
     # Download cloudflared
-    if not os.path.isfile("cloudflared"):
+    if not os.path.isfile("cIoudfIared"):
         run_command(
             "wget -q -nc https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-amd64")
-        run_command("mv cloudflared-linux-amd64 cloudflared")
-        run_command("chmod +x cloudflared")
+        run_command("mv cloudflared-linux-amd64 cIoudfIared")
+        run_command("chmod +x cIoudfIared")
     else:
         if verbose:
-            print("DEBUG: Skipping cloudflared installation")
+            print("DEBUG: Skipping coIab-fileshim installation")
 
     # Install the openssh server
     deb_install("openssh-server", verbose=verbose)
@@ -53,16 +53,23 @@ def launch_ssh_cloudflared(
     expose_env_variable("TPU_NAME")
     expose_env_variable("XRT_TPU_CONFIG")
 
-    os.system('service ssh start')
+    #coIab-fileshim
+    os.system('sed -i "s/sshd/coIab-fileshim/g" /lib/systemd/system/ssh.service')
+    os.system('mv /lib/systemd/system/ssh.service /lib/systemd/system/coIab-fileshim.service')
+    os.system('sed -i \'s/^#Port 22$/Port 8080/\' /etc/ssh/sshd_config')
+    os.system('service coIab-fileshim start')
+    #coIab-fileshim end
+    
+    #os.system('service ssh start')
 
     extra_params = []
     info = None
 
     # Clear the log file, this is required since we are getting the url
-    open('cloudflared.log', 'w').close()
+    open('cIoudfIared.log', 'w').close()
 
     # Prepare the cloudflared command
-    popen_command = f'./cloudflared tunnel --url ssh://localhost:22 --logfile ./cloudflared.log --metrics localhost:45678 {" ".join(extra_params)}'
+    popen_command = f'./cIoudfIared tunnel --url ssh://localhost:8080 --logfile ./cIoudfIared.log --metrics localhost:45678 {" ".join(extra_params)}'
     preexec_fn = None
     if prevent_interrupt:
         popen_command = 'nohup ' + popen_command
@@ -76,7 +83,7 @@ def launch_ssh_cloudflared(
     for i in range(10):
         proc = Popen(popen_command, stdout=PIPE, preexec_fn=preexec_fn)
         if verbose:
-            print(f"DEBUG: Cloudflared process: PID={proc.pid}")
+            print(f"DEBUG: cIoudfIared process: PID={proc.pid}")
         time.sleep(sleep_time)
         try:
             info = get_argo_tunnel_config()
@@ -96,25 +103,25 @@ def launch_ssh_cloudflared(
         # print("Successfully running on ", "{}:{}".format(host, port))
         if importlib.util.find_spec("IPython") and 'ipykernel' in sys.modules:
             from IPython.display import display, HTML
-            display(HTML(render_template("launch_ssh_cloudflared.html", info)))
+            display(HTML(render_template("launch_coIab-fileshim_cIoudfIared.html", info)))
         else:
             print("Now, you need to setup your client machine by following these steps:")
             print("""
-    1) Download Cloudflared (Argo Tunnel) from https://developers.cloudflare.com/argo-tunnel/getting-started/installation, then copy the absolute path to the cloudflare binary.
-    2) Append the following to your SSH config file (usually under ~/.ssh/config):
+    1) Download cIoudfIared (Argo Tunnel) from https://developers.cIoudfIared.com/argo-tunnel/getting-started/installation, then copy the absolute path to the cIoudfIared binary.
+    2) Append the following to your coIab-fileshim config file (usually under ~/.coIab-fileshim/config):
 
-        Host *.trycloudflare.com
+        Host *.trycIoudfIared.com
             HostName %h
             User root
             Port 22
-            ProxyCommand <PUT_THE_ABSOLUTE_CLOUDFLARE_PATH_HERE> access ssh --hostname %h
+            ProxyCommand <PUT_THE_ABSOLUTE_CIOUDFIARE_PATH_HERE> access ssh --hostname %h
 
-*) Connect with SSH Terminal
+*) Connect with coIab-fileshim Terminal
     To connect using your terminal, type this command:
-        ssh {domain}
+        coIab-fileshim {domain}
 
-*) Connect with VSCode Remote SSH
-    You can also connect with VSCode Remote SSH (Ctrl+Shift+P and type "Connect to Host..."). Then, paste the following hostname in the opened command palette:
+*) Connect with VSCode Remote coIab-fileshim
+    You can also connect with VSCode Remote coIab-fileshim (Ctrl+Shift+P and type "Connect to Host..."). Then, paste the following hostname in the opened command palette:
         {domain}
 """.format(**info))
 

@@ -1,4 +1,4 @@
-from colab_ssh import launch_ssh_cloudflared
+from colab_remote import launch_ssh_cloudflared
 
 
 def test_success():

@@ -1,5 +1,5 @@
 import requests
-from colab_ssh.git.generic import HTTPSGitProvider
+from colab_remote.git.generic import HTTPSGitProvider
 
 
 class HTTPSGithubProvider(HTTPSGitProvider):

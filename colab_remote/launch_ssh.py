@@ -3,8 +3,8 @@ import shlex
 import time
 from subprocess import PIPE, Popen
 
-from colab_ssh._command import run_command, run_with_pipe
-from colab_ssh.get_tunnel_config import get_tunnel_config
+from colab_remote._command import run_command, run_with_pipe
+from colab_remote.get_tunnel_config import get_tunnel_config
 
 from .utils.expose_env_variable import expose_env_variable
 
